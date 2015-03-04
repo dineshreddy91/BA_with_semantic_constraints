@@ -6,7 +6,7 @@ Installation:
 
 Ceres 
 
-git clone https://ceres-solver.googlesource.com/ceres-solver \\
+git clone https://ceres-solver.googlesource.com/ceres-solver
 cd ceres-solver
 mkdir ceres-bin
 cd ceres-bin
