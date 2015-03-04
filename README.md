@@ -1,12 +1,12 @@
 # BA_with_semantic_constraints
 
-The code for Bundle adjustment with constraints
+The code for Bundle adjustment with constraints 
 
 Installation:
 
 Ceres 
 
-git clone https://ceres-solver.googlesource.com/ceres-solver
+git clone https://ceres-solver.googlesource.com/ceres-solver \\
 cd ceres-solver
 mkdir ceres-bin
 cd ceres-bin
