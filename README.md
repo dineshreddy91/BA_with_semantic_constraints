@@ -17,9 +17,11 @@ make install
 
 Wrapper for ceres
 
-git clone https://github.com/dineshreddy91/constrained_BA
-cd constrained_BA
-cmake .
+git clone https://github.com/dineshreddy91/BA_with_semantic_constraints
+cd BA_with_semantic_constraints
+mkdir build
+cd build
+cmake ..
 make
 
 To run the algorithm we use matlab
