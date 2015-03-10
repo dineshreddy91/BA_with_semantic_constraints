@@ -5,6 +5,7 @@ The code for Bundle adjustment with constraints
 Installation:
 
 Ceres 
+
 git clone https://ceres-solver.googlesource.com/ceres-solver 
 
 cd ceres-solver
