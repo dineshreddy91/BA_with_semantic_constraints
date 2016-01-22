@@ -8,6 +8,8 @@ if nargin < 1
 end
 if nargin < 2
 	constraints 	=	[ 0 10 20 50 80 100 200 300 500 700 1000 ];
+    	constraints 	=	[ 0];
+
 end
 if nargin < 3
 	mode			=	7;
@@ -47,7 +49,8 @@ num_views	=	15;																			% Number of camera views.
 pts_on_plane(1,:)=10*randn(1,num_pts);
 pts_on_plane(3,:)=4*randn(1,num_pts);
 pts_on_plane(2,:)=0;
-
+save('cube.mat','pts_on_cube','pts_on_plane');
+load('cube.mat');
 % Random intilization of the trajectories  without rotations 
 % projection_matrices(:,:,1)	=	[1 0 0 0.5;0 1 0 0.2; 0 0 1 20  ;0 0 0 1];					% z=0
 % projection_matrices(:,:,2)	=	[1 0 0 1  ;0 1 0 0.4; 0 0 1 19.5;0 0 0 1];					% z=1
@@ -97,14 +100,14 @@ for nv = 1:num_views
 	rec_points_plane		=	fcn_transformPoints( ...
 									projection_matrices(:, :, nv), pts_on_plane' );
 	
-    point3d_actual(:, :, nv)=	rec_points_plane;
+    point3d_actual(:, :, nv)=	rec_points;
     point3d_noise(:,:,nv) = point3d_actual(:,:,nv);
   %  size(rec_points_plane)
   %  size(point3d_noise(:, rand_pts, nv))
-	point3d_noise(rand_pts,:, nv)	=	noise( rec_points_plane(rand_pts,:), sigma );
+	point3d_noise(rand_pts,:, nv)	=	noise( rec_points(rand_pts,:), sigma );
 
 	% project to image frame
-	img_points				=	projectPoints( rec_points_plane, K );
+	img_points				=	projectPoints( rec_points, K );
 	point2d(:, :, nv)		=	img_points;
 
 	if debug_flag & debug_impts
@@ -133,12 +136,16 @@ rand_pts=sort(rand_pts);
 N_new=mean(N_avg,2)
 N_new(4)=0;
 
-if(mode == 6 || mode == 8 )
+if(mode == 6 )
     [N1,V1,P1]=affine_fit(point3d(:,:,1));
     N_new=N1;
     N_new(4)=0;
 end
-
+if(mode == 8)
+   [N1,V1,P1]=affine_fit(point3d(:,:,1));
+    N_new=N1;
+    N_new(4)=0;
+end
 
 
 
@@ -221,11 +228,14 @@ for c_iter = 1:num_constraints
 		figure(1); scatter3( point_cloud(1, 1:num_pts), point_cloud(2, 1:num_pts), ...
 							 point_cloud(3, 1:num_pts) ); title( 'Before Adjustment' );
 %		axis( [-5 5 -6 6 0 30] );
-		
+%		save('data/synthetic_data.mat', 'K', 'cameraRtC2W', 'point_cloud', ...
+%			'point_obs_index', 'point_obs_value', 'w3D','N_new');
+        load('synthetic_data.mat');
+        cameraRtC2W
 		[ cameraRtC2W1, point_cloud, bV, optm ]   =     bundleAdjustment2D3DBoxFile( ...
 												        cameraRtC2W, point_cloud, point_obs_index, ...
-												        point_obs_value, K, w3D, mode(m_iter), [cam1(:) cam2(:)],N_new);
-		
+												        point_obs_value, K, w3D, 4, [cam1(:) cam2(:)],N_new);
+		cameraRtC2W1
 		% Plot 3D points after doing bundle adjustment.
 		figure(2); scatter3( point_cloud(1, 1:num_pts), point_cloud(2, 1:num_pts), ...
 							 point_cloud(3, 1:num_pts) ); title( 'After Adjustment' );

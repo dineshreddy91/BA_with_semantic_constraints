@@ -1,0 +1,1 @@
+/usr/bin/c++       CMakeFiles/ba2D3DboxType1.dir/ba2D3DboxType.cc.o CMakeFiles/ba2D3DboxType1.dir/ceres_functions.cc.o  -o ba2D3DboxType1 -rdynamic /usr/local/lib/libceres.a /usr/local/lib/libglog.so -llapack /usr/lib/libf77blas.so.3gf /usr/lib/libatlas.so.3gf /usr/lib/libf77blas.so.3gf /usr/lib/libatlas.so.3gf -lgomp -lpthread -Wl,-rpath,/usr/local/lib 
